@@ -1,33 +1,34 @@
 import { SetStateAction, useEffect, useState } from "react"
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
-export default function Posts(){
+export default function Posts() {
 
     const [posts, setPosts] = useState([] as any[])
+    const location = useLocation();
 
     useEffect(() => {
-        async function getPosts(){
+        async function getPosts() {
             const response = await fetch('http://localhost:8080/posts');
             const resData = await response.json();
             setPosts([...resData.posts] as SetStateAction<any[]>)
         }
 
         getPosts()
-    }, [])
+    }, [location])
 
 
     return (
         <div className="card-container flex  gap-5 mt-4 flex-wrap">
-            { posts.map(post => (
+            {posts.map(post => (
                 <div key={post?.id} className="card w-full max-w-56  bg-gray-100 text-black opacity-30 rounded p-3">
                     <div className=" text-3xl mb-2">
-                        { post.title }
+                        {post.title}
                     </div>
                     <div className=" text-md">
-                        { post.description }
+                        {post.description}
                     </div>
                 </div>
-            )) }
+            ))}
             <Outlet />
         </div>
     )

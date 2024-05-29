@@ -15,7 +15,11 @@ function storePosts(posts) {
 
 const app = express();
 
-app.use(bodyParser.json());
+// Middleware to parse JSON bodies
+app.use(express.json());
+
+// Middleware to parse URL-encoded bodies
+app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
   // Attach CORS headers
